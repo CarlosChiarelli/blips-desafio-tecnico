@@ -34,7 +34,8 @@
                 "dracula-theme.theme-dracula",
                 "pkief.material-icon-theme",
                 "johnpapa.vscode-peacock",
-                "visualstudioexptteam.vscodeintellicode"
+                "visualstudioexptteam.vscodeintellicode",
+                "openai.chatgpt"
             ]
         }
     },

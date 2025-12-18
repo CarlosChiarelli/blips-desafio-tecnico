@@ -3,12 +3,16 @@ services:
     build:
       context: ../.
       dockerfile: docker/Dockerfile.devcontainer
+    command: poetry run uvicorn src.main:app --host 0.0.0.0 --port ${APP_PORT:-8000}
     volumes:
-      - .:/blips-app
+      # Mount the repo root so Poetry can see pyproject.toml inside the container
+      - ../:/blips-app
     depends_on:
       - mongodb
     env_file:
       - ../.env.example
+    ports:
+      - "${APP_PORT:-8000}:8000"
 
   mongodb:
     image: mongo:7
@@ -33,6 +37,7 @@ services:
     environment:
       - ME_CONFIG_MONGODB_ADMINUSERNAME=root
       - ME_CONFIG_MONGODB_ADMINPASSWORD=example
+      - ME_CONFIG_MONGODB_URL=mongodb://root:example@mongodb:27017/?authSource=admin
       - ME_CONFIG_MONGODB_SERVER=mongodb
       - ME_CONFIG_BASICAUTH=false
 

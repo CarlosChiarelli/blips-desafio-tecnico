@@ -1,6 +1,13 @@
 # Use a Python base image
 FROM python:3.11.8-slim
 
+# Install system dependencies (make, gcc, etc)
+RUN apt-get update && apt-get install -y \
+    make \
+    gcc \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+    
 # Install Poetry
 RUN pip install poetry==1.8.3
 
