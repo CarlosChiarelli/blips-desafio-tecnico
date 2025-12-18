@@ -1,0 +1,22 @@
+# Base image
+FROM python:3.11.8-slim
+
+# Set working directory
+WORKDIR /blips-app
+
+# Install Poetry
+ENV POETRY_VERSION=1.8.3
+RUN pip install "poetry==$POETRY_VERSION"
+
+# Copy project files
+COPY pyproject.toml poetry.lock* /blips-app/
+
+# Disable the creation of a virtual environment and install dependencies
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
+
+# Copy your application code to the container
+COPY . /blips-app/
+
+# Command to run your app
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
